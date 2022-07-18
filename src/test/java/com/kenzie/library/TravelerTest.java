@@ -74,7 +74,7 @@ public class TravelerTest {
 		}
 	}
 
-	@DisplayName("Traveler class can hunt")
+	@DisplayName("Traveler class can eat")
 	@Test
 	void canEat() {
 		try {

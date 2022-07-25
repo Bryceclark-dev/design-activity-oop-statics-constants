@@ -35,10 +35,12 @@ public class Traveler {
     }
 
     public boolean getIsHealthy() {
+
         return isHealthy;
     }
 
     public void setIsHealthy(boolean isHealthy) {
+
         this.isHealthy = isHealthy;
     }
 
@@ -48,7 +50,7 @@ public class Traveler {
 
     public void eat(){
         if(this.food > 0){
-            this.food -= 1;
+            this.food--;
         }else{
             this.isHealthy = false;
         }
@@ -74,7 +76,12 @@ class Hunter extends Traveler {
 //TODO: Code Hunter class
     public Hunter(){
         super();
-        this.food = 2;
+        setFood(2);
+    }
+
+    public Hunter(String name){
+        super(name);
+        setFood(2);
     }
 
     public void hunt(){

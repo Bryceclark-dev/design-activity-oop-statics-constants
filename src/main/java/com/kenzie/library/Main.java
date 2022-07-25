@@ -3,6 +3,7 @@ package com.kenzie.library;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.NoSuchElementException;
+import java.util.Random;
 
 public class Main {
     /*** Declare Statics and Constants Here ***/
@@ -27,6 +28,71 @@ public class Main {
 
         //This will only run through if all of the required elements for Part 2 are coded
         OregonTrailPartTwo();
+    }
+     public static void getBadEvent(Wagon wagon){
+        Random random = new Random();
+        int chance = random.nextInt(5);
+        int count = 0;
+        Traveler[] travelerArr = wagon.getPassengers();
+        BadEvent event;
+         for(BadEvent lookup: BadEvent.values()){
+             if(count == chance){
+                 event = lookup;
+                 switch (event){
+                     case ATTACK:
+                         for(Traveler travel : travelerArr){
+                             travel.food--;
+                         }
+                         System.out.println("Your group was attacked and some food was stolen");
+                         break;
+                     case EXHAUSTION:
+                         Main.daysTravelled++;
+                         System.out.println("Your group was too exhausted to travel so you lost a day");
+                         break;
+                     case DISEASE:
+                         for(Traveler travel : travelerArr){
+                             travel.setIsHealthy(false);
+                         }
+                         System.out.println("The group has come down with some sickness");
+                         break;
+                     }
+                     break;
+                 }
+                 count++;
+             }
+
+         }
+    public static void getGoodEvent(Wagon wagon){
+        Random random = new Random();
+        int chance = random.nextInt(3);
+        int count = 0;
+        Traveler[] travelerArr = wagon.getPassengers();
+        GoodEvent event;
+        for(GoodEvent lookup: GoodEvent.values()) {
+            if (count == chance) {
+                event = lookup;
+                switch (event) {
+                    case GOOD_HUNT:
+                        for (Traveler travel : travelerArr) {
+                            travel.food += 2;
+                        }
+                        System.out.println("You had a great hunt today");
+                        break;
+                    case EXTRA_HELP:
+                        Main.milesTravelled += 20;
+                        System.out.println("You got some extra help to travel farther today");
+                        break;
+                    case GOOD_WEATHER:
+                        for (Traveler travel : travelerArr) {
+                            travel.setIsHealthy(true);
+                        }
+                        System.out.println("It was great weather today so everyone is healthy");
+                        break;
+                }
+                break;
+            }
+            count++;
+        }
     }
 
     //Oregon Trail Part 1 and Part 2 are coded with runtime variable and method invocation
@@ -193,6 +259,15 @@ public class Main {
             Traveler[] passengerArray = (Traveler[]) getPassengers.invoke(wagon);
 
             for (int i = 0; i < max_days; i++) {
+                Random rand = new Random();
+                int chance = rand.nextInt(2);
+                if(chance == 0){
+                    getGoodEvent(wagon);
+                }else {
+                    getBadEvent(wagon);
+                }
+
+
                   OregonTrail.feedWagon(passengerArray);
 
                 //HUNTING ROUTINE
